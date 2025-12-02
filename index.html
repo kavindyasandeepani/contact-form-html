@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Message Us</title>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body { background: #f8f9fa; padding: 20px; display: flex; justify-content: center; min-height: 100vh; }
+    .container { max-width: 700px; width: 100%; }
+    header { text-align: center; margin-bottom: 30px; }
+    h1 { font-size: 2.2rem; color: #2c3e50; }
+    .subtitle { color: #7f8c8d; }
+    .form-group { margin-bottom: 20px; }
+    label { font-weight: 600; margin-bottom: 6px; display: block; }
+    .required::after { content: "*"; color: red; margin-left: 4px; }
+    input, textarea {
+      width: 100%; padding: 14px; border: 1px solid #ccc; border-radius: 6px;
+      font-size: 1rem;
+    }
+    textarea { min-height: 150px; }
+    button {
+      padding: 14px 30px; border: none; background: #3498db; color: #fff;
+      border-radius: 6px; cursor: pointer; font-size: 1.1rem; font-weight: 600;
+    }
+    .row { display: flex; gap: 15px; }
+    .row .form-group { flex: 1; }
+    #thankYouMessage { display: none; font-size: 2.5rem; font-weight: 700; text-align: center; margin-top: 50px; }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <form id="contactForm">
+
+      <div class="row">
+        <div class="form-group">
+          <label class="required">First Name</label>
+          <input type="text" id="first-name" placeholder="First Name" required>
+        </div>
+
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" id="last-name" placeholder="Last Name" >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="required">Email</label>
+        <input type="email" id="email" placeholder="your.email@example.com" required>
+      </div>
+
+      <div class="form-group">
+        <label class="required">Message</label>
+        <textarea id="message" placeholder="Type your message..." required></textarea>
+      </div>
+
+      <button type="submit">Send</button>
+    </form>
+
+    <div id="thankYouMessage">Thank You!</div>
+
+  </div>
+
+<script>
+  document.getElementById("contactForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const fullName = 
+      document.getElementById("first-name").value + " " + 
+      document.getElementById("last-name").value;
+
+    const data = {
+      name: fullName,
+      email: document.getElementById("email").value,
+      message: document.getElementById("message").value,
+      _captcha: "false",
+      _template: "table"
+    };
+
+    fetch("https://formsubmit.co/ajax/youremail@gmail.com", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    })
+    .then(response => {
+      document.getElementById("contactForm").style.display = "none";
+      document.getElementById("thankYouMessage").style.display = "block";
+    })
+    .catch(error => console.error("Error:", error));
+  });
+</script>
+
+</body>
+</html>
